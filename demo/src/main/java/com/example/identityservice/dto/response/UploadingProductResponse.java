@@ -1,9 +1,5 @@
 package com.example.identityservice.dto.response;
 
-import java.util.List;
-
-import com.example.identityservice.entity.Product;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +9,9 @@ import lombok.experimental.FieldDefaults;
 
 @Builder
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class GettingProductResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UploadingProductResponse {
     boolean success;
-
-    List<Product> products;
 }

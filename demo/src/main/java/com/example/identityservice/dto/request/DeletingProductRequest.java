@@ -1,22 +1,21 @@
 package com.example.identityservice.dto.request;
 
-import java.time.LocalDateTime;
-
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
+@Slf4j
 @Getter
-public class GettingProductRequest {
-    String sellerId;
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class DeletingProductRequest {
+    String productId;
 }

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import com.example.identityservice.dto.request.ApiResponse;
+import com.example.identityservice.dto.request.BuyingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
+import com.example.identityservice.dto.response.BuyingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UserResponse;
 import com.example.identityservice.entity.Product;
@@ -100,9 +102,9 @@ public class UserController {
 	
 	//mua sản phẩm
 	@GetMapping("/buy")
-	ApiResponse<GettingProductResponse> buyProduct(@RequestBody GettingProductRequest request){
+	ApiResponse<BuyingProductResponse> buyProduct(@RequestBody BuyingProductRequest request){
 		
-		return ApiResponse.<GettingProductResponse>builder()
+		return ApiResponse.<BuyingProductResponse>builder()
 			.result(userService.buyProduct(request))
 			.build();
 	}

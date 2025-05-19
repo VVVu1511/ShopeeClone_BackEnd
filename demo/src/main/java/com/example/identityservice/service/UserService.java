@@ -12,12 +12,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.identityservice.dto.request.BuyingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
+import com.example.identityservice.dto.response.BuyingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UserResponse;
 import com.example.identityservice.entity.User;
+import com.example.identityservice.entity.Cart;
 import com.example.identityservice.entity.CartItem;
 import com.example.identityservice.entity.CartItemId;
 import com.example.identityservice.entity.Product;
@@ -26,6 +29,7 @@ import com.example.identityservice.exception.AppException;
 import com.example.identityservice.exception.ErrorCode;
 import com.example.identityservice.mapper.UserMapper;
 import com.example.identityservice.repository.CartItemRepository;
+import com.example.identityservice.repository.CartRepository;
 import com.example.identityservice.repository.ProductRepository;
 import com.example.identityservice.repository.RoleRepository;
 import com.example.identityservice.repository.UserRepository;
@@ -43,6 +47,7 @@ public class UserService {
 	RoleRepository roleRepository;
 	CartItemRepository cartItemRepository;
 	UserMapper userMapper;
+	CartRepository cartRepository;
 	PasswordEncoder passwordEncoder;
 	ProductRepository productRepository;
 	
@@ -108,33 +113,44 @@ public class UserService {
 				);
 	}
 	
-	public GettingProductResponse buyProduct(GettingProductRequest request){
-		Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
+	//mua san pham
+	public BuyingProductResponse buyProduct(BuyingProductRequest request){
+		try{
 		
-		productRepository.deleteById(product.getProductId());
+			Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
+			
+			Cart cart = cartRepository.findById(request.getCartId()).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST_CART));
 
-		if(product.getStockQty() < request.getQuantity()){
-			throw new AppException(ErrorCode.NOT_ENOUGH_QUANTITY);
+			productRepository.deleteById(product.getProductId());
+
+			if(product.getStockQty() < request.getQuantity()){
+				throw new AppException(ErrorCode.NOT_ENOUGH_QUANTITY);
+			}
+
+			cartItemRepository.save(CartItem.builder()
+								.id(CartItemId.builder()
+									.cartId(request.getCartId())
+									.productId(product.getProductId())
+									.build())
+								.product(product)
+								.cart(cart)
+								.quantity(request.getQuantity())
+								.addedAt(LocalDateTime.now())
+								.build()
+						);
+
+			product.setStockQty(product.getStockQty() - request.getQuantity());
+
+			productRepository.save(product);
+		
+		} catch(Exception e){
+			throw new AppException(ErrorCode.PRODUCT_NOT_EXIST);
 		}
 
-		cartItemRepository.save(CartItem.builder()
-							.id(CartItemId.builder()
-								.cartId("h")
-								.productId(product.getProductId())
-								.build())
-							.product(product)
-							.cart(null)
-							.quantity(request.getQuantity())
-							.addedAt(LocalDateTime.now())
-							.build()
-					);
-
-		product.setStockQty(product.getStockQty() - request.getQuantity());
-
-		productRepository.save(product);
-
-		return GettingProductResponse.builder()
+		return BuyingProductResponse.builder()
 			.success(true)
 			.build();
 	}
+
+
 }

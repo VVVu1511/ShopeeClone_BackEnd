@@ -31,7 +31,7 @@ import lombok.experimental.FieldDefaults;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long categoryId;
+    String categoryId;
 
     String name;
 

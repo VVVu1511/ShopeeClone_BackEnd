@@ -2,12 +2,16 @@ package com.example.identityservice.dto.request;
 
 import java.time.LocalDateTime;
 
+import com.example.identityservice.entity.Seller;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
@@ -16,7 +20,13 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-@Getter
-public class GettingProductRequest {
+
+public class UploadingProductRequest {
+    String productId;
     String sellerId;
+    String categoryId;
+    String name;
+    String description;
+    Double price;
+    Integer stockQty;
 }

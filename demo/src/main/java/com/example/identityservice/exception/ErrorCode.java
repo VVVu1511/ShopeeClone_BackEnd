@@ -19,7 +19,10 @@ public enum ErrorCode {
 	UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
 	INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
 	PRODUCT_NOT_EXIST(1009, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
-	NOT_ENOUGH_QUANTITY(1010,"The stock quantity is not enough", HttpStatus.BAD_REQUEST)
+	NOT_ENOUGH_QUANTITY(1010,"The stock quantity is not enough", HttpStatus.BAD_REQUEST),
+	NOT_EXIST_CART(1011,"The cart doesn't exist", HttpStatus.BAD_REQUEST),
+	NOT_EXIST_CATEGORY(1012,"The category doesn't exist", HttpStatus.BAD_REQUEST),
+	NOT_EXIST(1013,"Not exist", HttpStatus.BAD_REQUEST)
 	;
 
 	
