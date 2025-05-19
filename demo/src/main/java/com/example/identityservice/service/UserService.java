@@ -1,5 +1,6 @@
 package com.example.identityservice.service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -10,14 +11,22 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.example.identityservice.dto.request.GettingProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
+import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UserResponse;
 import com.example.identityservice.entity.User;
+import com.example.identityservice.entity.CartItem;
+import com.example.identityservice.entity.CartItemId;
+import com.example.identityservice.entity.Product;
 import com.example.identityservice.entity.Role;
 import com.example.identityservice.exception.AppException;
 import com.example.identityservice.exception.ErrorCode;
 import com.example.identityservice.mapper.UserMapper;
+import com.example.identityservice.repository.CartItemRepository;
+import com.example.identityservice.repository.ProductRepository;
 import com.example.identityservice.repository.RoleRepository;
 import com.example.identityservice.repository.UserRepository;
 import lombok.AccessLevel;
@@ -32,8 +41,10 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 	UserRepository userRepository;
 	RoleRepository roleRepository;
+	CartItemRepository cartItemRepository;
 	UserMapper userMapper;
 	PasswordEncoder passwordEncoder;
+	ProductRepository productRepository;
 	
 	public UserResponse createUser(UserCreationRequest request) {
 		log.info("Service: Create User");
@@ -95,5 +106,35 @@ public class UserService {
 		return userMapper.toUserResponse(userRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("User not found!"))
 				);
+	}
+	
+	public GettingProductResponse buyProduct(GettingProductRequest request){
+		Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
+		
+		productRepository.deleteById(product.getProductId());
+
+		if(product.getStockQty() < request.getQuantity()){
+			throw new AppException(ErrorCode.NOT_ENOUGH_QUANTITY);
+		}
+
+		cartItemRepository.save(CartItem.builder()
+							.id(CartItemId.builder()
+								.cartId("h")
+								.productId(product.getProductId())
+								.build())
+							.product(product)
+							.cart(null)
+							.quantity(request.getQuantity())
+							.addedAt(LocalDateTime.now())
+							.build()
+					);
+
+		product.setStockQty(product.getStockQty() - request.getQuantity());
+
+		productRepository.save(product);
+
+		return GettingProductResponse.builder()
+			.success(true)
+			.build();
 	}
 }

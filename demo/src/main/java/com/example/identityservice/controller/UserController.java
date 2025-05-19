@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import com.example.identityservice.dto.request.ApiResponse;
+import com.example.identityservice.dto.request.GettingProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
+import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UserResponse;
+import com.example.identityservice.entity.Product;
 import com.example.identityservice.entity.User;
 import com.example.identityservice.service.UserService;
 
@@ -27,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -41,6 +45,7 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
 		log.info("Controller: create User");
 		ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
@@ -54,7 +59,6 @@ public class UserController {
 	ApiResponse<List<UserResponse>> getUsers(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 				
-		log.info("Username: {}", authentication.getName()); 
 		authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 		
 		return ApiResponse.<List<UserResponse>>builder()
@@ -64,12 +68,14 @@ public class UserController {
 
 	
 	@GetMapping("/{userId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
 		return ApiResponse.<UserResponse>builder()
 				.result(userService.getUser(userId))
 				.build();
 	}
 	
+	//xem thông tin cá nhân
 	@GetMapping("/myInfo")
 	ApiResponse<UserResponse> getMyInfo() {
 		return ApiResponse.<UserResponse>builder()
@@ -77,17 +83,29 @@ public class UserController {
 				.build();
 	}
 	
+	//cập nhật thông tin cá nhân
 	@PutMapping("/{userId}")
 	UserResponse updateUser(@PathVariable String userId,@RequestBody @Valid UserUpdateRequest request) {
 		return userService.updateUser(userId, request);
 	}
 	
+	//hủy tài khoản
 	@DeleteMapping("/{userId}")
-	
+	@PreAuthorize("hasRole('ADMIN')")
 	String deleteUser(@PathVariable String userId) {
 		userService.deleteUser(userId);
 		
 		return "User has been deleted";
 	}
+	
+	//mua sản phẩm
+	@GetMapping("/buy")
+	ApiResponse<GettingProductResponse> buyProduct(@RequestBody GettingProductRequest request){
+		
+		return ApiResponse.<GettingProductResponse>builder()
+			.result(userService.buyProduct(request))
+			.build();
+	}
+
 	
 }

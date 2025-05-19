@@ -1,4 +1,4 @@
-package com.example.identityservice.dto.request;
+package com.example.identityservice.dto.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,12 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
-public class AuthenticationRequest {
-	String username;
-	String password;
+public class GettingProductResponse {
+    boolean success;
 }
