@@ -13,6 +13,6 @@ import com.example.identityservice.entity.Product;
 public interface ProductMapper {
     @Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "status", ignore = true)
-	
+	@Mapping(target = "productId", ignore = true)
 	void updateProduct(@MappingTarget Product product, UpdatingProductRequest request);
 }

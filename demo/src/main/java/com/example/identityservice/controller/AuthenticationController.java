@@ -36,8 +36,8 @@ public class AuthenticationController {
 		AuthenticationResponse result = authenticationService.authenticate(request);
 		
 		return ApiResponse.<AuthenticationResponse>builder()
-		        .result(result)
-		        .build();
+		    	.result(result)
+		    	.build();
 	}
 	
 	@PostMapping("/introspect")
@@ -61,11 +61,11 @@ public class AuthenticationController {
 	
 	@PostMapping("/refresh")
 	ApiResponse<AuthenticationResponse> authenticate(@RequestBody RefreshRequest request)
-	 throws ParseException, JOSEException{
+		throws ParseException, JOSEException{
 		AuthenticationResponse result = authenticationService.refreshToken(request);
 		
 		return ApiResponse.<AuthenticationResponse>builder()
-		        .result(result)
-		        .build();
+				.result(result)
+				.build();
 	}
 }

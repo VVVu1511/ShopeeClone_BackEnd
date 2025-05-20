@@ -78,7 +78,7 @@ public class UserControllerTest {
 		
 		Mockito.when(userService.createUser(ArgumentMatchers.any()))
 			.thenReturn(userResponse);
-		 
+		
 		//WHEN, THEN
 		
 		mockMvc.perform(MockMvcRequestBuilders
@@ -101,7 +101,7 @@ public class UserControllerTest {
 		
 		Mockito.when(userService.createUser(ArgumentMatchers.any()))
 			.thenReturn(userResponse);
-		 
+		
 		//WHEN, THEN
 		
 		mockMvc.perform(MockMvcRequestBuilders
