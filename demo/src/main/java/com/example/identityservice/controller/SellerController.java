@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,10 +38,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/seller")
 @RequiredArgsConstructor
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SellerController {
     SellerService sellerService;
     
+    //đăng bán sản phẩm
     @PostMapping("/upload")
     public ApiResponse<UploadingProductResponse> uploadProduct(@RequestBody UploadingProductRequest request) {
         
@@ -47,6 +51,7 @@ public class SellerController {
             .build();
     }
     
+    //cập nhật sản phẩm
     @PutMapping("/update")
     public ApiResponse<UpdatingProductResponse> updateProduct(@RequestBody UpdatingProductRequest request){
         
@@ -55,6 +60,7 @@ public class SellerController {
             .build();
     }
 
+    //lấy tất cả sản phẩm của sellerId
     @GetMapping("/products")
     public ApiResponse<GettingProductResponse> getProducts(@RequestBody GettingProductRequest request) {
         
@@ -63,6 +69,7 @@ public class SellerController {
             .build();
     }
     
+    //xóa sản phẩm
     @DeleteMapping("/delete")
     public ApiResponse<DeletingProductResponse> deleteProduct(@RequestBody DeletingProductRequest request){
 
@@ -71,11 +78,21 @@ public class SellerController {
             .build();
     }
 
+    //tạo ra 1 seller mới
     @PostMapping("/create")
     public ApiResponse<Seller> createSeller(@RequestBody SellerCreationRequest request) {
         
         return ApiResponse.<Seller>builder()
             .result(sellerService.createSeller(request))
+            .build();
+    }
+
+    //lấy tất cả sellers
+    @GetMapping("/all")
+    public ApiResponse<List<Seller>> getAllSellers(){
+
+        return ApiResponse.<List<Seller>>builder()
+            .result(sellerService.getAllSellers())
             .build();
     }
     

@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,10 +30,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @Getter
 @Setter
+@Table(name = "category")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String categoryId;
 
     String name;

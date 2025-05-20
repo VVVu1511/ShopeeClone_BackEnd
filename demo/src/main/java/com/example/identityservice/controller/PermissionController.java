@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PermissionController {
 	PermissionService permissionService;
 	
+	//tạo 1 permission mới
 	@PostMapping
 	ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest request){
 		return ApiResponse.<PermissionResponse>builder()
@@ -38,6 +39,7 @@ public class PermissionController {
 				.build();
 	}
 	
+	//lấy tất cả permissions
 	@GetMapping
 	ApiResponse<List<PermissionResponse>> getAll(){
 		return ApiResponse.<List<PermissionResponse>>builder()
@@ -45,6 +47,7 @@ public class PermissionController {
 				.build();
 	}
 	
+	//xóa 1 permission
 	@DeleteMapping("/{permission}")
 	ApiResponse<Void> delete(@PathVariable String permission){
 		permissionService.delete(permission);

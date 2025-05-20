@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductController {
     ProductService productService;
 
+    //lấy tất cả sản phẩm
     @GetMapping
     public ApiResponse<List<Product>> getAllProducts() {
         return ApiResponse.<List<Product>>builder()
@@ -38,6 +39,7 @@ public class ProductController {
             .build();
     }
     
+    //lấy tất cả sản phẩm trong tầm giá
     @GetMapping("/{minPrice}/{maxPrice}")
     public ApiResponse<List<Product>> getProductsByPrice(@PathVariable double minPrice, @PathVariable double maxPrice) {
         
@@ -46,6 +48,7 @@ public class ProductController {
             .build();
     }
     
+    //lấy tất cả sản phẩm theo thể loại
     @GetMapping("/category/{categoryId}")
     public ApiResponse<List<Product>> getProductsByCategory(@PathVariable String categoryId) {
         

@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RoleController {
 	RoleService roleService;
 	
+	//tạo 1 role mới
 	@PostMapping
 	ApiResponse<RoleResponse> create(@RequestBody RoleRequest request){
 		return ApiResponse.<RoleResponse>builder()
@@ -41,6 +42,7 @@ public class RoleController {
 				.build();
 	}
 	
+	//lấy mọi role
 	@GetMapping
 	ApiResponse<List<RoleResponse>> getAll(){
 		return ApiResponse.<List<RoleResponse>>builder()
@@ -48,6 +50,7 @@ public class RoleController {
 				.build();
 	}
 	
+	//xóa role
 	@DeleteMapping("/{role}")
 	ApiResponse<Void> delete(@PathVariable String role){
 		roleService.delete(role);

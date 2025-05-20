@@ -103,6 +103,19 @@ public class SellerService {
 
     //tao mot seller moi
     public Seller createSeller(SellerCreationRequest request){
-        return sellerRepository.save(sellerMapper.toSeller(request));
+        return sellerRepository.save(Seller.builder()
+                                .sellerId(request.getSellerId())
+                                .shopName(request.getShopName())
+                                .shopDescription(request.getShopDescription())
+                                .rating(request.getRating())
+                                .createdAt(LocalDateTime.now())
+                                .status("available")
+                                .build()
+    );
+    }
+
+    //lay tat ca seller
+    public List<Seller> getAllSellers(){
+        return sellerRepository.findAll();
     }
 }
