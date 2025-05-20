@@ -32,7 +32,6 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<List<Product>> getAllProducts() {
         return ApiResponse.<List<Product>>builder()
             .result(productService.getAllProducts())
@@ -44,6 +43,14 @@ public class ProductController {
         
         return ApiResponse.<List<Product>>builder()
             .result(productService.getAllProductsByPrice(minPrice, maxPrice))
+            .build();
+    }
+    
+    @GetMapping("/category/{categoryId}")
+    public ApiResponse<List<Product>> getProductsByCategory(@PathVariable String categoryId) {
+        
+        return ApiResponse.<List<Product>>builder()
+            .result(productService.getAllProductsByCategory(categoryId))
             .build();
     }
     

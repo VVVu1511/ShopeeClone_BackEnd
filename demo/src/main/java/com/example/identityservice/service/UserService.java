@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.identityservice.dto.request.BuyingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
+import com.example.identityservice.dto.request.ReviewProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
 import com.example.identityservice.dto.response.BuyingProductResponse;
@@ -24,6 +25,7 @@ import com.example.identityservice.entity.Cart;
 import com.example.identityservice.entity.CartItem;
 import com.example.identityservice.entity.CartItemId;
 import com.example.identityservice.entity.Product;
+import com.example.identityservice.entity.Review;
 import com.example.identityservice.entity.Role;
 import com.example.identityservice.exception.AppException;
 import com.example.identityservice.exception.ErrorCode;
@@ -31,6 +33,7 @@ import com.example.identityservice.mapper.UserMapper;
 import com.example.identityservice.repository.CartItemRepository;
 import com.example.identityservice.repository.CartRepository;
 import com.example.identityservice.repository.ProductRepository;
+import com.example.identityservice.repository.ReviewRepository;
 import com.example.identityservice.repository.RoleRepository;
 import com.example.identityservice.repository.UserRepository;
 import lombok.AccessLevel;
@@ -50,6 +53,7 @@ public class UserService {
 	CartRepository cartRepository;
 	PasswordEncoder passwordEncoder;
 	ProductRepository productRepository;
+	ReviewRepository reviewRepository;
 	
 	public UserResponse createUser(UserCreationRequest request) {
 		log.info("Service: Create User");
@@ -152,5 +156,16 @@ public class UserService {
 			.build();
 	}
 
+	//danh gia san pham
+	public Review reviewProduct(ReviewProductRequest request) {
+		Review review = Review.builder()
+						.user(userRepository.findById(request.getUserId()).orElseThrow())
+						.product(productRepository.findById(request.getProductId()).orElseThrow())
+						.createdAt(LocalDateTime.now())
+						.comment(request.getComment())
+						.rating(request.getRating())
+						.build();
 
+		return reviewRepository.save(review);
+	}
 }

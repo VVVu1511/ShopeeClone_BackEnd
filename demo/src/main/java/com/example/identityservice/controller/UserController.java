@@ -16,12 +16,14 @@ import java.util.List;
 import com.example.identityservice.dto.request.ApiResponse;
 import com.example.identityservice.dto.request.BuyingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
+import com.example.identityservice.dto.request.ReviewProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
 import com.example.identityservice.dto.response.BuyingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UserResponse;
 import com.example.identityservice.entity.Product;
+import com.example.identityservice.entity.Review;
 import com.example.identityservice.entity.User;
 import com.example.identityservice.service.UserService;
 
@@ -46,6 +48,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class UserController {
 	UserService userService;
 	
+	//tạo user mới
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
 	ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
@@ -57,6 +60,7 @@ public class UserController {
 		return apiResponse;
 	}
 	
+	//lấy tất cả user
 	@GetMapping
 	ApiResponse<List<UserResponse>> getUsers(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -68,7 +72,7 @@ public class UserController {
 				.build();
 	}
 
-	
+	//lấy 1 user bất kì
 	@GetMapping("/{userId}")
 	@PreAuthorize("hasRole('ADMIN')")
 	ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
@@ -109,5 +113,14 @@ public class UserController {
 			.build();
 	}
 
+	//đánh giá sản phẩm
+	@PostMapping("/reviewProduct")
+	ApiResponse<Review> reviewOneProduct(@RequestBody ReviewProductRequest request) {
+		
+		return ApiResponse.<Review>builder()
+			.result(userService.reviewProduct(request))
+			.build();
+	}
 	
+
 }

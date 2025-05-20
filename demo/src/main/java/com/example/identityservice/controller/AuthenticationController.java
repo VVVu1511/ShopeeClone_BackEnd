@@ -33,21 +33,19 @@ public class AuthenticationController {
 	
 	@PostMapping("/token")
 	ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-		AuthenticationResponse result = authenticationService.authenticate(request);
 		
 		return ApiResponse.<AuthenticationResponse>builder()
-		    	.result(result)
-		    	.build();
+			.result(authenticationService.authenticate(request))
+			.build();
 	}
 	
 	@PostMapping("/introspect")
 	ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request)
 		throws ParseException, JOSEException{
-		IntrospectResponse result = authenticationService.introspect(request);
 		
 		return ApiResponse.<IntrospectResponse>builder()
-		        .result(result)
-		        .build();
+			.result(authenticationService.introspect(request))
+			.build();
 	}
 	
 	@PostMapping("/logout")
@@ -56,16 +54,15 @@ public class AuthenticationController {
 		authenticationService.logout(request);
 		
 		return ApiResponse.<Void>builder()
-		        .build();
+			.build();
 	}
 	
 	@PostMapping("/refresh")
 	ApiResponse<AuthenticationResponse> authenticate(@RequestBody RefreshRequest request)
 		throws ParseException, JOSEException{
-		AuthenticationResponse result = authenticationService.refreshToken(request);
 		
 		return ApiResponse.<AuthenticationResponse>builder()
-				.result(result)
+				.result(authenticationService.refreshToken(request))
 				.build();
 	}
 }
