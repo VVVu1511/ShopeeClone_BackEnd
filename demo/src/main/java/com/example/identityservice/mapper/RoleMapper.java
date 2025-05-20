@@ -16,7 +16,7 @@ import com.example.identityservice.entity.Role;
 import com.example.identityservice.entity.User;
 
 @Mapper(
-	    componentModel = "spring"
+	componentModel = "spring"
 )
 
 public interface RoleMapper {

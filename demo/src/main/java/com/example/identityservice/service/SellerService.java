@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.identityservice.dto.request.DeletingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
+import com.example.identityservice.dto.request.SellerCreationRequest;
 import com.example.identityservice.dto.request.UpdatingProductRequest;
 import com.example.identityservice.dto.request.UploadingProductRequest;
 import com.example.identityservice.dto.response.DeletingProductResponse;
@@ -17,9 +18,11 @@ import com.example.identityservice.dto.response.UpdatingProductResponse;
 import com.example.identityservice.dto.response.UploadingProductResponse;
 import com.example.identityservice.entity.Category;
 import com.example.identityservice.entity.Product;
+import com.example.identityservice.entity.Seller;
 import com.example.identityservice.exception.AppException;
 import com.example.identityservice.exception.ErrorCode;
 import com.example.identityservice.mapper.ProductMapper;
+import com.example.identityservice.mapper.SellerMapper;
 import com.example.identityservice.repository.CategoryRepository;
 import com.example.identityservice.repository.ProductRepository;
 import com.example.identityservice.repository.SellerRepository;
@@ -38,6 +41,7 @@ public class SellerService {
     CategoryRepository categoryRepository;
     ProductMapper productMapper;
     SellerRepository sellerRepository;
+    SellerMapper sellerMapper;
 
     //dang ban san pham
     public UploadingProductResponse uploadProduct(UploadingProductRequest request){
@@ -86,6 +90,7 @@ public class SellerService {
             .build();
     }
 
+    //xoa san pham
     public DeletingProductResponse deleteProduct(DeletingProductRequest request){
         try{
             productRepository.deleteById(request.getProductId());
@@ -94,5 +99,10 @@ public class SellerService {
         }
 
         return DeletingProductResponse.builder().success(true).build();
+    }
+
+    //tao mot seller moi
+    public Seller createSeller(SellerCreationRequest request){
+        return sellerRepository.save(sellerMapper.toSeller(request));
     }
 }

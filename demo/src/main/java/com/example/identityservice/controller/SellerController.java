@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.identityservice.dto.request.ApiResponse;
 import com.example.identityservice.dto.request.DeletingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
+import com.example.identityservice.dto.request.SellerCreationRequest;
 import com.example.identityservice.dto.request.UpdatingProductRequest;
 import com.example.identityservice.dto.request.UploadingProductRequest;
 import com.example.identityservice.dto.response.DeletingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UpdatingProductResponse;
 import com.example.identityservice.dto.response.UploadingProductResponse;
+import com.example.identityservice.entity.Seller;
 import com.example.identityservice.service.SellerService;
 
 import lombok.AccessLevel;
@@ -68,4 +70,13 @@ public class SellerController {
             .result(sellerService.deleteProduct(request))
             .build();
     }
+
+    @PostMapping("/create")
+    public ApiResponse<Seller> createSeller(@RequestBody SellerCreationRequest request) {
+        
+        return ApiResponse.<Seller>builder()
+            .result(sellerService.createSeller(request))
+            .build();
+    }
+    
 }
