@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,11 +47,14 @@ public class User {
 	LocalDateTime createdAt;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
     Set<Cart> carts = new HashSet<>();
 
 	@ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	@JsonIgnore
 	Set<Role> roles = new HashSet<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
 	Set<Review> reviews = new HashSet<>();
 }

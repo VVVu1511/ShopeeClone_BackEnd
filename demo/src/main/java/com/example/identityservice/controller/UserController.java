@@ -69,6 +69,15 @@ public class UserController {
 				.build();
 	}
 
+	//mua sản phẩm
+	@GetMapping("/buy/product")
+	ApiResponse<BuyingProductResponse> buyProduct(@RequestBody BuyingProductRequest request){
+		
+		return ApiResponse.<BuyingProductResponse>builder()
+			.result(userService.buyProduct(request))
+			.build();
+	}
+
 	//lấy 1 user bất kì
 	@GetMapping("/{userId}")
 	ApiResponse<User> getUser(@PathVariable("userId") Long userId) {
@@ -99,15 +108,6 @@ public class UserController {
 		return "User has been deleted";
 	}
 	
-	//mua sản phẩm
-	@GetMapping("/buy")
-	ApiResponse<BuyingProductResponse> buyProduct(@RequestBody BuyingProductRequest request){
-		
-		return ApiResponse.<BuyingProductResponse>builder()
-			.result(userService.buyProduct(request))
-			.build();
-	}
-
 	//đánh giá sản phẩm
 	@PostMapping("/reviewProduct")
 	ApiResponse<Review> reviewOneProduct(@RequestBody ReviewProductRequest request) {
@@ -117,5 +117,5 @@ public class UserController {
 			.build();
 	}
 	
-
+	
 }

@@ -1,51 +1,39 @@
-package com.example.identityservice.entity;
-import java.time.LocalDate;
+package com.example.identityservice.dto.request;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.example.identityservice.entity.CartItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Cart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 36)
-    Long cartId;
+@NoArgsConstructor
+@AllArgsConstructor
+@Slf4j
+@Builder
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    User user;
-
-    LocalDateTime createdAt;
+public class CartUpdateRequest {
     LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    @JsonIgnore
-    Set<CartItem> items = new HashSet<>();
 }

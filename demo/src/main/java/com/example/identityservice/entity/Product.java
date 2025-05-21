@@ -57,6 +57,7 @@ public class Product {
     LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @JsonIgnore
     Set<Review> reviews = new HashSet<>();
 
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

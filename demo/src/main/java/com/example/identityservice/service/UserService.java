@@ -13,8 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.identityservice.dto.request.BuyingProductRequest;
+import com.example.identityservice.dto.request.CartUpdateRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
 import com.example.identityservice.dto.request.ReviewProductRequest;
+import com.example.identityservice.dto.request.UpdatingProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
 import com.example.identityservice.dto.response.BuyingProductResponse;
@@ -29,6 +31,8 @@ import com.example.identityservice.entity.Review;
 import com.example.identityservice.entity.Role;
 import com.example.identityservice.exception.AppException;
 import com.example.identityservice.exception.ErrorCode;
+import com.example.identityservice.mapper.CartMapper;
+import com.example.identityservice.mapper.ProductMapper;
 import com.example.identityservice.mapper.UserMapper;
 import com.example.identityservice.repository.CartItemRepository;
 import com.example.identityservice.repository.CartRepository;
@@ -49,12 +53,15 @@ public class UserService {
 	UserRepository userRepository;
 	RoleRepository roleRepository;
 	CartItemRepository cartItemRepository;
-	UserMapper userMapper;
 	CartRepository cartRepository;
-	PasswordEncoder passwordEncoder;
 	ProductRepository productRepository;
 	ReviewRepository reviewRepository;
 	
+	UserMapper userMapper;
+	PasswordEncoder passwordEncoder;
+	ProductMapper productMapper;
+	CartMapper cartMapper;
+
 	public User createUser(UserCreationRequest request) {
 		log.info("Service: Create User");
 		
@@ -124,8 +131,8 @@ public class UserService {
 			Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
 			
 			Cart cart = cartRepository.findById(request.getCartId()).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST_CART));
-
-			productRepository.deleteById(product.getProductId());
+			
+			cart.setUpdatedAt(LocalDateTime.now());
 
 			if(product.getStockQty() < request.getQuantity()){
 				throw new AppException(ErrorCode.NOT_ENOUGH_QUANTITY);
@@ -145,7 +152,17 @@ public class UserService {
 
 			product.setStockQty(product.getStockQty() - request.getQuantity());
 
+			productMapper.updateProduct2(product, UpdatingProductRequest.builder()
+				.stockQty(product.getStockQty() - request.getQuantity())
+				.build()
+			);
+
 			productRepository.save(product);
+
+			cartMapper.updateCart(cart, CartUpdateRequest.builder()
+				.updatedAt(LocalDateTime.now()).build());
+
+			cartRepository.save(cart);
 		
 		} catch(Exception e){
 			throw new AppException(ErrorCode.PRODUCT_NOT_EXIST);

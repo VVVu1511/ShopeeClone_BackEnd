@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +41,7 @@ public class Role {
 	String description;
 
 	@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+	@JsonIgnore
 	Set<Permission> permissions;
 
 
@@ -48,5 +51,6 @@ public class Role {
 		joinColumns = @JoinColumn(name = "role_id"),
 		inverseJoinColumns = @JoinColumn(name = "user_id")
 	)
+	@JsonIgnore
 	Set<User> users = new HashSet<>();
 }

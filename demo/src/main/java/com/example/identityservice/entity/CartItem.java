@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -36,11 +38,13 @@ public class CartItem {
     @ManyToOne
     @MapsId("cartId")
     @JoinColumn(name = "cart_id")
+    @JsonIgnore
     Cart cart;
 
     @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     Product product;
 
     Integer quantity;

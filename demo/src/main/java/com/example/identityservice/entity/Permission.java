@@ -4,6 +4,8 @@ package com.example.identityservice.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,5 +43,6 @@ public class Permission {
 		joinColumns = @JoinColumn(name = "permission_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
+	@JsonIgnore
 	Set<Role> roles = new HashSet<>();
 }
