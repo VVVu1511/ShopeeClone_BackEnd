@@ -50,54 +50,49 @@ public class UserController {
 	
 	//tạo user mới
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
-	ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
-		log.info("Controller: create User");
-		ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
+	ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
 		
-		apiResponse.setResult(userService.createUser(request));
-		
-		return apiResponse;
+		return ApiResponse.<User>builder()
+				.result(userService.createUser(request))
+				.build();
 	}
 	
 	//lấy tất cả user
 	@GetMapping
-	ApiResponse<List<UserResponse>> getUsers(){
+	ApiResponse<List<User>> getUsers(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 				
 		authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 		
-		return ApiResponse.<List<UserResponse>>builder()
+		return ApiResponse.<List<User>>builder()
 				.result(userService.getUsers())
 				.build();
 	}
 
 	//lấy 1 user bất kì
 	@GetMapping("/{userId}")
-	@PreAuthorize("hasRole('ADMIN')")
-	ApiResponse<UserResponse> getUser(@PathVariable("userId") Long userId) {
-		return ApiResponse.<UserResponse>builder()
+	ApiResponse<User> getUser(@PathVariable("userId") Long userId) {
+		return ApiResponse.<User>builder()
 				.result(userService.getUser(userId))
 				.build();
 	}
 	
 	//xem thông tin cá nhân
 	@GetMapping("/myInfo")
-	ApiResponse<UserResponse> getMyInfo() {
-		return ApiResponse.<UserResponse>builder()
+	ApiResponse<User> getMyInfo() {
+		return ApiResponse.<User>builder()
 				.result(userService.getMyInfo())
 				.build();
 	}
 	
 	//cập nhật thông tin cá nhân
 	@PutMapping("/{userId}")
-	UserResponse updateUser(@PathVariable Long userId,@RequestBody @Valid UserUpdateRequest request) {
+	User updateUser(@PathVariable Long userId,@RequestBody @Valid UserUpdateRequest request) {
 		return userService.updateUser(userId, request);
 	}
 	
 	//hủy tài khoản
 	@DeleteMapping("/{userId}")
-	@PreAuthorize("hasRole('ADMIN')")
 	String deleteUser(@PathVariable Long userId) {
 		userService.deleteUser(userId);
 		

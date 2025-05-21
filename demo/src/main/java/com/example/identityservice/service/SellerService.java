@@ -55,6 +55,7 @@ public class SellerService {
                 .description(request.getDescription())
                 .stockQty(request.getStockQty())
                 .createdAt(LocalDateTime.now())
+                .seller(sellerRepository.findById(request.getSellerId()).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST)))
                 .build());
 
         return UploadingProductResponse.builder().success(true).build();
@@ -65,7 +66,8 @@ public class SellerService {
         Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
 
         try{
-            // productMapper.updateProduct(product, request);
+            productMapper.updateProduct(product, request);
+            productRepository.save(product);
         }
         catch(Exception e){
             throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
@@ -75,18 +77,14 @@ public class SellerService {
     }
 
     //lay danh sach san pham
-    public GettingProductResponse getProducts(GettingProductRequest request){
-        List<Product> products = productRepository.findAllBySeller(sellerRepository.findById
+    public List<Product> getProducts(GettingProductRequest request){
+        Seller seller = sellerRepository.findById
             (request.getSellerId())
             .orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
-            )
             );
-
-        return GettingProductResponse.builder()
-            .success(true)
-            .products(products)
-            .build();
+        
+        return productRepository.findAllBySeller(seller);
     }
 
     //xoa san pham
@@ -113,5 +111,15 @@ public class SellerService {
     //lay tat ca seller
     public List<Seller> getAllSellers(){
         return sellerRepository.findAll();
+    }
+
+    public void deleteSeller(Long sellerId){
+        boolean done = true;
+        
+        try{
+            sellerRepository.deleteById(sellerId);
+        } catch(Exception e){
+            done = false;
+        }
     }
 }

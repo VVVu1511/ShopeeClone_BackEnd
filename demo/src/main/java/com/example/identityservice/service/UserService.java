@@ -55,7 +55,7 @@ public class UserService {
 	ProductRepository productRepository;
 	ReviewRepository reviewRepository;
 	
-	public UserResponse createUser(UserCreationRequest request) {
+	public User createUser(UserCreationRequest request) {
 		log.info("Service: Create User");
 		
 		if(userRepository.existsByUsername(request.getUsername())) {
@@ -71,10 +71,10 @@ public class UserService {
 		
 //		user.setRoles(roles);
 		
-		return userMapper.toUserResponse(userRepository.save(user));
+		return user;
 	}
 	
-	public UserResponse updateUser(Long userId,UserUpdateRequest request) {
+	public User updateUser(Long userId,UserUpdateRequest request) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found!"));
 		
@@ -86,10 +86,10 @@ public class UserService {
 		List<Role> roles = roleRepository.findAllByNameIn(request.getRoles());
 		user.setRoles(new HashSet<>(roles));
 		
-		return userMapper.toUserResponse(user);
+		return user;
 	}
 	
-	public UserResponse getMyInfo() {
+	public User getMyInfo() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		
 		String name = context.getAuthentication().getName();
@@ -97,25 +97,24 @@ public class UserService {
 		User user = userRepository.findByUsername(name).orElseThrow(
 				() -> new AppException(ErrorCode.USER_NOT_EXIST));
 		
-		return userMapper.toUserResponse(user);
+		return user;
 	}
 	
 	public void deleteUser(Long userId) {
 		userRepository.deleteById(userId);
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
-	public List<UserResponse> getUsers(){
+	// @PreAuthorize("hasRole('ADMIN')")
+	public List<User> getUsers(){
 		log.info("In method get Users");
-		return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+		return userRepository.findAll();
 	}
 	
-	@PostAuthorize("returnObject.username == authentication.name")	
-	public UserResponse getUser(Long userId) {
+	// @PostAuthorize("returnObject.username == authentication.name")	
+	public User getUser(Long userId) {
 		log.info("In method get user by Id");
-		return userMapper.toUserResponse(userRepository.findById(userId)
-				.orElseThrow(() -> new RuntimeException("User not found!"))
-				);
+		return userRepository.findById(userId)
+				.orElseThrow(() -> new RuntimeException("User not found!"));
 	}
 	
 	//mua san pham

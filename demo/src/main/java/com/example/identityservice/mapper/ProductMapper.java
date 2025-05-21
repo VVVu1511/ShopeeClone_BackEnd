@@ -11,6 +11,7 @@ import com.example.identityservice.entity.Product;
     componentModel = "spring"
 )
 public interface ProductMapper {
-	// @Mapping(target = "productId", ignore = true)
-	// void updateProduct(@MappingTarget Product product, UpdatingProductRequest request);
+	@Mapping(target = "productId", ignore = true)
+	
+	void updateProduct(@MappingTarget Product product, UpdatingProductRequest request);
 }

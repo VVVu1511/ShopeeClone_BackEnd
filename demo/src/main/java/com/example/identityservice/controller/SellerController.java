@@ -13,6 +13,7 @@ import com.example.identityservice.dto.response.DeletingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UpdatingProductResponse;
 import com.example.identityservice.dto.response.UploadingProductResponse;
+import com.example.identityservice.entity.Product;
 import com.example.identityservice.entity.Seller;
 import com.example.identityservice.service.SellerService;
 
@@ -42,6 +43,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SellerController {
     SellerService sellerService;
     
+    //tạo ra 1 seller mới
+    @PostMapping("/create")
+    public ApiResponse<Seller> createSeller(@RequestBody SellerCreationRequest request) {
+        
+        return ApiResponse.<Seller>builder()
+            .result(sellerService.createSeller(request))
+            .build();
+    }
+
     //đăng bán sản phẩm
     @PostMapping("/upload")
     public ApiResponse<UploadingProductResponse> uploadProduct(@RequestBody UploadingProductRequest request) {
@@ -50,40 +60,13 @@ public class SellerController {
             .result(sellerService.uploadProduct(request))
             .build();
     }
-    
-    //cập nhật sản phẩm
-    @PutMapping("/update")
-    public ApiResponse<UpdatingProductResponse> updateProduct(@RequestBody UpdatingProductRequest request){
-        
-        return ApiResponse.<UpdatingProductResponse>builder()
-            .result(sellerService.updateProduct(request))
-            .build();
-    }
 
     //lấy tất cả sản phẩm của sellerId
     @GetMapping("/products")
-    public ApiResponse<GettingProductResponse> getProducts(@RequestBody GettingProductRequest request) {
+    public ApiResponse<List<Product>> getProducts(@RequestBody GettingProductRequest request) {
         
-        return ApiResponse.<GettingProductResponse>builder()
+        return ApiResponse.<List<Product>>builder()
             .result(sellerService.getProducts(request))
-            .build();
-    }
-    
-    //xóa sản phẩm
-    @DeleteMapping("/delete")
-    public ApiResponse<DeletingProductResponse> deleteProduct(@RequestBody DeletingProductRequest request){
-
-        return ApiResponse.<DeletingProductResponse>builder()
-            .result(sellerService.deleteProduct(request))
-            .build();
-    }
-
-    //tạo ra 1 seller mới
-    @PostMapping("/create")
-    public ApiResponse<Seller> createSeller(@RequestBody SellerCreationRequest request) {
-        
-        return ApiResponse.<Seller>builder()
-            .result(sellerService.createSeller(request))
             .build();
     }
 
@@ -96,4 +79,24 @@ public class SellerController {
             .build();
     }
     
-}
+    //cập nhật sản phẩm
+    @PutMapping("/update")
+    public ApiResponse<UpdatingProductResponse> updateProduct(@RequestBody UpdatingProductRequest request){
+        
+        return ApiResponse.<UpdatingProductResponse>builder()
+            .result(sellerService.updateProduct(request))
+            .build();
+    }
+
+    
+    
+    //xóafsadfd();
+    }
+
+    // @DeleteMapping("/{sellerId}")
+    // public ApiResponse<Void> deleteSeller(@PathVariable Long sellerId){
+    //     sellerService.
+
+    //     return ApiResponse.<Void>builder()
+    //         .build();
+    // }
