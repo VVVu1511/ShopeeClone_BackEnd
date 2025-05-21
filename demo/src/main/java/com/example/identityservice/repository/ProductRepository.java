@@ -9,7 +9,7 @@ import com.example.identityservice.entity.Product;
 import com.example.identityservice.entity.Seller;;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product,String> {
+public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findAllBySeller(Seller seller);
 }
 

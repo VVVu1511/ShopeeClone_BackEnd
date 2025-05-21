@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.identityservice.dto.request.ApiResponse;
 import com.example.identityservice.dto.request.PermissionRequest;
 import com.example.identityservice.dto.request.RoleRequest;
+import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.PermissionResponse;
 import com.example.identityservice.dto.response.RoleResponse;
 import com.example.identityservice.service.PermissionService;
@@ -52,7 +52,7 @@ public class RoleController {
 	
 	//xóa role
 	@DeleteMapping("/{role}")
-	ApiResponse<Void> delete(@PathVariable String role){
+	ApiResponse<Void> delete(@PathVariable Long role){
 		roleService.delete(role);
 		return ApiResponse.<Void>builder().build();
 	}

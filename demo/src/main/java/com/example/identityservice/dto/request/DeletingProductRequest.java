@@ -17,5 +17,5 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DeletingProductRequest {
-    String productId;
+    Long productId;
 }

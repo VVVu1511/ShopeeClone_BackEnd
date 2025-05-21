@@ -2,8 +2,10 @@ package com.example.identityservice.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +34,8 @@ import lombok.experimental.FieldDefaults;
 public class Product {
     @Id
     @Column(length = 36)
-    String productId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long productId;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
@@ -46,7 +50,9 @@ public class Product {
     Double price;
     Integer stockQty;
     LocalDateTime createdAt;
-    String status;
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    Set<Review> reviews = new HashSet<>();
 
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    Set<ProductImage> images = new HashSet<>();

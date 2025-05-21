@@ -22,9 +22,9 @@ import lombok.experimental.FieldDefaults;
 @Data
 
 public class UploadingProductRequest {
-    String productId;
-    String sellerId;
-    String categoryId;
+    Long sellerId;
+    
+    Long categoryId;
     String name;
     String description;
     Double price;

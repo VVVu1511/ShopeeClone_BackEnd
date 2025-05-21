@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.identityservice.dto.request.ApiResponse;
 import com.example.identityservice.dto.request.PermissionRequest;
+import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.PermissionResponse;
 import com.example.identityservice.service.PermissionService;
 
@@ -48,9 +48,9 @@ public class PermissionController {
 	}
 	
 	//xóa 1 permission
-	@DeleteMapping("/{permission}")
-	ApiResponse<Void> delete(@PathVariable String permission){
-		permissionService.delete(permission);
+	@DeleteMapping("/{permissionId}")
+	ApiResponse<Void> delete(@PathVariable Long permissionId){
+		permissionService.delete(permissionId);
 		return ApiResponse.<Void>builder().build();
 	}
 	

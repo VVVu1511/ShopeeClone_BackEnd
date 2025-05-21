@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CartItemId implements Serializable {
     @Column(name = "cart_id", length = 36)
-    String cartId;
+    Long cartId;
     @Column(name = "product_id", length = 36)
-    String productId;
+    Long productId;
 }
 

@@ -22,8 +22,6 @@ public class CategoryService {
     public Category newCategory(CreatingCategoryRequest request){
 
         return Category.builder()
-            .categoryId(request.getCategoryId())
-            .description(request.getDescription())
             .name(request.getName())
             .build();
     }

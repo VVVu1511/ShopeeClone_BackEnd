@@ -27,10 +27,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long roleId;
+	
 	String name;
 	String description;
 
 	@ManyToMany
 	Set<Permission> permissions;
-	
 }

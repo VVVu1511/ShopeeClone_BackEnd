@@ -55,7 +55,6 @@ public class SellerService {
                 .description(request.getDescription())
                 .stockQty(request.getStockQty())
                 .createdAt(LocalDateTime.now())
-                .status("OK")
                 .build());
 
         return UploadingProductResponse.builder().success(true).build();
@@ -104,12 +103,9 @@ public class SellerService {
     //tao mot seller moi
     public Seller createSeller(SellerCreationRequest request){
         return sellerRepository.save(Seller.builder()
-                                .sellerId(request.getSellerId())
                                 .shopName(request.getShopName())
                                 .shopDescription(request.getShopDescription())
-                                .rating(request.getRating())
                                 .createdAt(LocalDateTime.now())
-                                .status("available")
                                 .build()
     );
     }

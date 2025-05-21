@@ -20,12 +20,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level=AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-	@Size(min=8, message = "Password must be at least 8 characters")
 	String password;
 	String firstName;
 	String lastName;
 	
-	@DobConstraints(min = 18, message = "INVALID_DOB")
 	LocalDate dob;
 	List<String> roles;
 }

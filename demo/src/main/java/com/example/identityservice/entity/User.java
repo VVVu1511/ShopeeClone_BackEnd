@@ -20,8 +20,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-
-
 @NoArgsConstructor
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -31,8 +29,9 @@ import lombok.experimental.FieldDefaults;
 @Builder
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
+
 	String username;
 	String password;
 	
@@ -48,9 +47,6 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     Set<Cart> carts = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    Set<Review> reviews = new HashSet<>();
-
-	@ManyToMany
+	@ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	Set<Role> roles; 
 }

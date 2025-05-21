@@ -3,12 +3,12 @@ package com.example.identityservice.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.identityservice.dto.request.ApiResponse;
 import com.example.identityservice.dto.request.DeletingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
 import com.example.identityservice.dto.request.SellerCreationRequest;
 import com.example.identityservice.dto.request.UpdatingProductRequest;
 import com.example.identityservice.dto.request.UploadingProductRequest;
+import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.DeletingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UpdatingProductResponse;

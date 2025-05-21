@@ -7,6 +7,6 @@ import com.example.identityservice.entity.Cart;
 
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, String> {
+public interface CartRepository extends JpaRepository<Cart, Long> {
 
 }

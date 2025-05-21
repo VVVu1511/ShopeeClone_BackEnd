@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class BuyingProductRequest {
-        String cartId;
-        String productId;
+        Long cartId;
+        Long productId;
         Integer quantity;
 }

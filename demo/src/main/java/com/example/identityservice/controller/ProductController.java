@@ -3,7 +3,7 @@ package com.example.identityservice.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.identityservice.dto.request.ApiResponse;
+import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.GettingAllProductResponse;
 import com.example.identityservice.entity.Product;
 import com.example.identityservice.service.ProductService;
@@ -50,7 +50,7 @@ public class ProductController {
     
     //lấy tất cả sản phẩm theo thể loại
     @GetMapping("/category/{categoryId}")
-    public ApiResponse<List<Product>> getProductsByCategory(@PathVariable String categoryId) {
+    public ApiResponse<List<Product>> getProductsByCategory(@PathVariable Long categoryId) {
         
         return ApiResponse.<List<Product>>builder()
             .result(productService.getAllProductsByCategory(categoryId))

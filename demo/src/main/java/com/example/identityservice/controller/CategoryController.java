@@ -3,8 +3,8 @@ package com.example.identityservice.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.identityservice.dto.request.ApiResponse;
 import com.example.identityservice.dto.request.CreatingCategoryRequest;
+import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.entity.Category;
 import com.example.identityservice.repository.CategoryRepository;
 import com.example.identityservice.service.CategoryService;

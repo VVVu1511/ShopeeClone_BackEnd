@@ -34,18 +34,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Category {
     @Id
-    String categoryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long categoryId;
 
-    String name;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    Category parent;
-
-    String description;
-
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    Set<Category> children = new HashSet<>();
+    String name;    
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     Set<Product> products = new HashSet<>();

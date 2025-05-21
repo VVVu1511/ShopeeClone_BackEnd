@@ -31,8 +31,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 36)
-    String cartId;
+    Long cartId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

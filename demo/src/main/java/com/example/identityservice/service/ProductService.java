@@ -28,7 +28,7 @@ public class ProductService {
         return productRepository.findAll().stream().filter(e -> e.getPrice() >= minPrice && e.getPrice() <= maxPrice).toList();
     }
 
-    public List<Product> getAllProductsByCategory(String categoryId){
+    public List<Product> getAllProductsByCategory(Long categoryId){
         return productRepository.findAll().stream().filter(e -> e.getCategory().getCategoryId() == categoryId).toList();
     }
 }

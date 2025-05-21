@@ -18,9 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SellerCreationRequest {
-    String sellerId;
     String shopName;
     String shopDescription;
-    Double rating;
-    String status;
 }

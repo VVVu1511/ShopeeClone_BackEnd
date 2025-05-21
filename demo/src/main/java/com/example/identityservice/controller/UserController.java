@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import com.example.identityservice.dto.request.ApiResponse;
 import com.example.identityservice.dto.request.BuyingProductRequest;
 import com.example.identityservice.dto.request.GettingProductRequest;
 import com.example.identityservice.dto.request.ReviewProductRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
+import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.BuyingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UserResponse;
@@ -75,7 +75,7 @@ public class UserController {
 	//lấy 1 user bất kì
 	@GetMapping("/{userId}")
 	@PreAuthorize("hasRole('ADMIN')")
-	ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
+	ApiResponse<UserResponse> getUser(@PathVariable("userId") Long userId) {
 		return ApiResponse.<UserResponse>builder()
 				.result(userService.getUser(userId))
 				.build();
@@ -91,14 +91,14 @@ public class UserController {
 	
 	//cập nhật thông tin cá nhân
 	@PutMapping("/{userId}")
-	UserResponse updateUser(@PathVariable String userId,@RequestBody @Valid UserUpdateRequest request) {
+	UserResponse updateUser(@PathVariable Long userId,@RequestBody @Valid UserUpdateRequest request) {
 		return userService.updateUser(userId, request);
 	}
 	
 	//hủy tài khoản
 	@DeleteMapping("/{userId}")
 	@PreAuthorize("hasRole('ADMIN')")
-	String deleteUser(@PathVariable String userId) {
+	String deleteUser(@PathVariable Long userId) {
 		userService.deleteUser(userId);
 		
 		return "User has been deleted";

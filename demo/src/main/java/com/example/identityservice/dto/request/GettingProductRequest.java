@@ -18,5 +18,5 @@ import lombok.experimental.FieldDefaults;
 @Data
 @Getter
 public class GettingProductRequest {
-    String sellerId;
+    Long sellerId;
 }

@@ -31,6 +31,7 @@ public class RoleService {
 	public RoleResponse create(RoleRequest request) {
 		Role role = roleMapper.toRole(request);
 		
+		//find by permission name
 		List<Permission> permissions = permissionRepository.findAllById(request.getPermissions());
 	
 		role = roleRepository.save(role);
@@ -45,7 +46,7 @@ public class RoleService {
 				.toList();
 	}
 	
-	public void delete(String role) {
-		roleRepository.deleteById(role);
+	public void delete(Long roleId) {
+		roleRepository.deleteById(roleId);
 	}
 }

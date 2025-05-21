@@ -32,10 +32,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Review {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid",strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 36)
-    String reviewId;
+    Long reviewId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

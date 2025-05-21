@@ -32,8 +32,5 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 public class CreatingCategoryRequest {
-        @Id
-        String categoryId;
         String name;
-        String description;
 }

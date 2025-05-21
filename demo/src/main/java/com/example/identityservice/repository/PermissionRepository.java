@@ -7,6 +7,6 @@ import com.example.identityservice.entity.Permission;
 
 
 @Repository
-public interface PermissionRepository extends JpaRepository<Permission, String>{
+public interface PermissionRepository extends JpaRepository<Permission, Long>{
 	
 }

@@ -21,8 +21,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReviewProductRequest {
-    String userId;
-    String productId;
+    Long userId;
+    Long productId;
 
     Integer rating;
     String comment;

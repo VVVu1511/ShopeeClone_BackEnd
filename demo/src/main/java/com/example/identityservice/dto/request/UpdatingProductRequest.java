@@ -22,8 +22,9 @@ import lombok.experimental.FieldDefaults;
 @Data
 
 public class UpdatingProductRequest {
-    String productId;
-    String categoryId;
+    Long productId;
+    Long categoryId;
+    
     String name;
     String description;
     Double price;

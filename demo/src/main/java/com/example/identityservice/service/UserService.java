@@ -74,7 +74,7 @@ public class UserService {
 		return userMapper.toUserResponse(userRepository.save(user));
 	}
 	
-	public UserResponse updateUser(String userId,UserUpdateRequest request) {
+	public UserResponse updateUser(Long userId,UserUpdateRequest request) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found!"));
 		
@@ -82,6 +82,7 @@ public class UserService {
 		userRepository.save(user);
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		
+		//find roles by name
 		List<Role> roles = roleRepository.findAllById(request.getRoles());
 		user.setRoles(new HashSet<>(roles));
 		
@@ -99,7 +100,7 @@ public class UserService {
 		return userMapper.toUserResponse(user);
 	}
 	
-	public void deleteUser(String userId) {
+	public void deleteUser(Long userId) {
 		userRepository.deleteById(userId);
 	}
 	
@@ -110,9 +111,9 @@ public class UserService {
 	}
 	
 	@PostAuthorize("returnObject.username == authentication.name")	
-	public UserResponse getUser(String id) {
+	public UserResponse getUser(Long userId) {
 		log.info("In method get user by Id");
-		return userMapper.toUserResponse(userRepository.findById(id)
+		return userMapper.toUserResponse(userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found!"))
 				);
 	}

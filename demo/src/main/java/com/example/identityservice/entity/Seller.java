@@ -34,18 +34,14 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Seller {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 36)
-    String sellerId;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    User user;
+    Long sellerId;
 
     String shopName;
     String shopDescription;
     Double rating;
     LocalDateTime createdAt;
-    String status;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     Set<Product> products = new HashSet<>();
