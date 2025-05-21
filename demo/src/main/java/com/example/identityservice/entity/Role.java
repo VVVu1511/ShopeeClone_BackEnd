@@ -2,13 +2,18 @@ package com.example.identityservice.entity;
 
 import java.lang.System.Logger.Level;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +38,15 @@ public class Role {
 	String name;
 	String description;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
 	Set<Permission> permissions;
+
+
+	@ManyToMany
+	@JoinTable(
+		name = "role_user",
+		joinColumns = @JoinColumn(name = "role_id"),
+		inverseJoinColumns = @JoinColumn(name = "user_id")
+	)
+	Set<User> users = new HashSet<>();
 }

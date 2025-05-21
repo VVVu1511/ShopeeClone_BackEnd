@@ -47,6 +47,9 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     Set<Cart> carts = new HashSet<>();
 
-	@ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	Set<Role> roles; 
+	@ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	Set<Role> roles = new HashSet<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	Set<Review> reviews = new HashSet<>();
 }

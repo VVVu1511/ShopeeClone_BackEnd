@@ -15,10 +15,11 @@ import com.example.identityservice.entity.Product;
 import com.example.identityservice.entity.User;
 
 @Mapper(
-	    componentModel = "spring"
+	componentModel = "spring"
 )
 public interface UserMapper {
-	// User toUser(UserCreationRequest request);
+	User toUser(UserCreationRequest request);
+
 	UserResponse toUserResponse(User user);
 	
 	@Mapping(target = "roles", ignore = true)

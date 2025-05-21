@@ -65,7 +65,7 @@ public class SellerService {
         Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
 
         try{
-            productMapper.updateProduct(product, request);
+            // productMapper.updateProduct(product, request);
         }
         catch(Exception e){
             throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);

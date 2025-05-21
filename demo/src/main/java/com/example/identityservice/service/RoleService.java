@@ -32,7 +32,7 @@ public class RoleService {
 		Role role = roleMapper.toRole(request);
 		
 		//find by permission name
-		List<Permission> permissions = permissionRepository.findAllById(request.getPermissions());
+		List<Permission> permissions = permissionRepository.findAllByNameIn(request.getPermissions());
 	
 		role = roleRepository.save(role);
 		

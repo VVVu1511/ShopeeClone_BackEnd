@@ -25,7 +25,8 @@ public class UserCreationRequest {
 	String password;
 	String firstName;
 	String lastName;
-
+	String phone;
+	String address;
+	String email;
 	LocalDate dob;
-	List<String> roles;
 }

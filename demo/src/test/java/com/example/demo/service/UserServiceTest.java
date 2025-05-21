@@ -54,7 +54,7 @@ public class UserServiceTest {
 		
 		userResponse = UserResponse.builder()
 				//need to paste real ID to test
-				.id("cf0600f538b3")
+				// .id("cf0600f538b3")
 				.username("john")
 				.firstName("David")
 				.lastName("Laid")
@@ -62,7 +62,7 @@ public class UserServiceTest {
 				.build();
 		
 		user = User.builder()
-				.id("cf0600f538b3")
+				// .id(cf0600f538b3")
 				.username("john")
 				.firstName("David")
 				.lastName("Laid")

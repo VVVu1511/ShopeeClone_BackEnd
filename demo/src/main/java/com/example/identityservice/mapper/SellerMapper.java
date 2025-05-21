@@ -9,6 +9,5 @@ import com.example.identityservice.entity.Seller;
     componentModel = "spring"
 )
 public interface SellerMapper {
-    
     Seller toSeller(SellerCreationRequest request);
 }

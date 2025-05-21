@@ -83,7 +83,7 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		
 		//find roles by name
-		List<Role> roles = roleRepository.findAllById(request.getRoles());
+		List<Role> roles = roleRepository.findAllByNameIn(request.getRoles());
 		user.setRoles(new HashSet<>(roles));
 		
 		return userMapper.toUserResponse(user);
@@ -160,7 +160,7 @@ public class UserService {
 	//danh gia san pham
 	public Review reviewProduct(ReviewProductRequest request) {
 		Review review = Review.builder()
-						.user(userRepository.findById(request.getUserId()).orElseThrow())
+						.user(userRepository.findById(request.getUserId()).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST)))
 						.product(productRepository.findById(request.getProductId()).orElseThrow())
 						.createdAt(LocalDateTime.now())
 						.comment(request.getComment())

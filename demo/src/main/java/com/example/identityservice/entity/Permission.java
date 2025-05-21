@@ -1,10 +1,16 @@
 package com.example.identityservice.entity;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,4 +34,12 @@ public class Permission {
 	String name;
 
 	String description;
+
+	@ManyToMany
+	@JoinTable(
+		name = "role_permission",
+		joinColumns = @JoinColumn(name = "permission_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	Set<Role> roles = new HashSet<>();
 }
