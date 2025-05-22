@@ -110,7 +110,7 @@ public class UserController {
 	
 	//đánh giá sản phẩm
 	@PostMapping("/reviewProduct")
-	ApiResponse<Review> reviewOneProduct(@RequestBody ReviewProductRequest request) {
+	ApiResponse<Review> reviewOneProduct(@RequestBody @Valid ReviewProductRequest request) {
 		
 		return ApiResponse.<Review>builder()
 			.result(userService.reviewProduct(request))

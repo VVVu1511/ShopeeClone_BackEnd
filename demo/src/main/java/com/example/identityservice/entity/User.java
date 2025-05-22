@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,12 +35,15 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
+	@Size(min = 8, max = 20)
 	String username;
 	String password;
 	
 	String firstName;
 	String lastName;
 	LocalDate dob;
+	
+	@Size(min = 8, max = 12)
 	String phone;
     String address;
 	String email;
