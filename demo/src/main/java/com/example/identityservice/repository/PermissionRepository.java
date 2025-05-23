@@ -13,4 +13,5 @@ import com.example.identityservice.entity.Permission;
 public interface PermissionRepository extends JpaRepository<Permission, Long>{
 	Permission findByName(String name);
     List<Permission> findAllByNameIn(Set<String> permissions);
+    boolean existsByName(String name);
 }

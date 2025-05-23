@@ -36,7 +36,6 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Size(min = 8, max = 20)
 	String username;
 	String password;
 	

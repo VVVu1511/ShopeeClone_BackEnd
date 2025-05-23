@@ -65,7 +65,8 @@ public class UserService {
 	ProductMapper productMapper;
 	CartMapper cartMapper;
 
-	public User createUser(UserCreationRequest request) {
+
+	public User createUser(UserCreationRequest request) {		
 		if(userRepository.existsByUsername(request.getUsername())) {
 			throw new AppException(ErrorCode.USER_EXIST);
 		}

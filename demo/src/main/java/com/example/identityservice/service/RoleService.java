@@ -10,6 +10,7 @@ import com.example.identityservice.dto.response.RoleResponse;
 import com.example.identityservice.entity.Permission;
 import com.example.identityservice.entity.Role;
 import com.example.identityservice.entity.RolePermission;
+import com.example.identityservice.entity.RolePermissionId;
 import com.example.identityservice.mapper.PermissionMapper;
 import com.example.identityservice.mapper.RoleMapper;
 import com.example.identityservice.repository.PermissionRepository;
@@ -41,6 +42,7 @@ public class RoleService {
 
 		List<RolePermission> rpl = permissions.stream()
 			.map(p -> RolePermission.builder()
+				.rolePermissionId(RolePermissionId.builder().roleId(save_role.getRoleId()).permissionId(p.getPermissionId()).build())
 				.role(save_role)
 				.permission(p)
 				.build())

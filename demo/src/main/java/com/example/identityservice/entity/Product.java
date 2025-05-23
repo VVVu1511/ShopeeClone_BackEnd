@@ -18,6 +18,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,7 +54,10 @@ public class Product {
 
     String name;
     String description;
+    
+    @DecimalMin("0.0")
     Double price;
+    @Min(0)
     Integer stockQty;
     LocalDateTime createdAt;
 

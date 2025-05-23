@@ -173,7 +173,6 @@ public class AuthenticationService {
 	private String generateToken(User user) {
 		JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 		
-		 
 		JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
 				.subject(user.getUsername())
 				.issuer("Vu.com")
@@ -203,9 +202,9 @@ public class AuthenticationService {
 		if(!org.springframework.util.CollectionUtils.isEmpty(user.getRoles())) {
 			user.getRoles().forEach(role -> {
 				stringJoiner.add("ROLE_" + role.getName());
-				if(!CollectionUtils.isEmpty(role.getPermissions()))
-					role.getPermissions()
-						.forEach(permission -> stringJoiner.add(permission.getName()));
+				// if(!CollectionUtils.isEmpty(role.getPermissions()))
+				// 	role.getPermissions()
+				// 		.forEach(permission -> stringJoiner.add(permission.getName()));
 				
 			});
 		}

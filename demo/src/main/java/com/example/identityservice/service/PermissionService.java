@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.example.identityservice.dto.request.PermissionRequest;
 import com.example.identityservice.dto.response.PermissionResponse;
 import com.example.identityservice.entity.Permission;
+import com.example.identityservice.exception.AppException;
+import com.example.identityservice.exception.ErrorCode;
 import com.example.identityservice.mapper.PermissionMapper;
 import com.example.identityservice.repository.PermissionRepository;
 import com.example.identityservice.repository.UserRepository;
@@ -26,6 +28,10 @@ public class PermissionService {
 	PermissionMapper permissionMapper;
 	
 	public PermissionResponse create(PermissionRequest request) {
+		if(permissionRepository.existsByName(request.getName())){
+			throw new AppException(ErrorCode.PERMISSION_EXIST);
+		};
+		
 		Permission permission = permissionMapper.toPermission(request);
 		
 		permission = permissionRepository.save(permission);

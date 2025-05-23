@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +39,8 @@ public class Permission {
 
 	String description;
 
+
+	@OneToMany(mappedBy = "permission",cascade = CascadeType.ALL)
 	@JsonIgnore
-	@ManyToMany
-	Set<Role> roles = new HashSet<>();
+	Set<RolePermission> rolePermissions;
 }

@@ -25,6 +25,7 @@ public enum ErrorCode {
 	NOT_EXIST(1013,"Not exist", HttpStatus.BAD_REQUEST),
 	EMAIL_EXIST(1014,"Email already exists", HttpStatus.BAD_REQUEST),
 	PHONE_NUMBER_EXIST(1015,"Phone number already exists", HttpStatus.BAD_REQUEST),
+	PERMISSION_EXIST(1016,"Permission already exists", HttpStatus.BAD_REQUEST),
 	;
 
 	

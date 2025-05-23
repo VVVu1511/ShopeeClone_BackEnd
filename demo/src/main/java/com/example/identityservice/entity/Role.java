@@ -41,10 +41,9 @@ public class Role {
 	String name;
 	String description;
 
-	@ManyToMany(fetch = FetchType.LAZY,mappedBy = "role",cascade = CascadeType.ALL)
-	@JsonIgnore
-	Set<Permission> permissions;
-
+	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+	Set<RolePermission> rolePermissions;
+	
 	@ManyToMany
 	@JoinTable(
 		name = "role_user",

@@ -24,7 +24,7 @@ public class ReviewProductRequest {
     Long userId;
     Long productId;
 
-    Integer rating;
+    Double rating;
     String comment;
     LocalDateTime createdAt;
 }

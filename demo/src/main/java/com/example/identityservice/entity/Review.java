@@ -21,6 +21,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,7 +54,10 @@ public class Review {
     @JsonIgnore
     Product product;
 
-    Integer rating;
+    @DecimalMax("5.0")
+    @DecimalMin("0.0")
+    Double rating;
+
     String comment;
     LocalDateTime createdAt;
 }
