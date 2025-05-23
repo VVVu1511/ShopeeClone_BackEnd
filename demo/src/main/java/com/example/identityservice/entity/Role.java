@@ -44,7 +44,6 @@ public class Role {
 	@JsonIgnore
 	Set<Permission> permissions;
 
-
 	@ManyToMany
 	@JoinTable(
 		name = "role_user",

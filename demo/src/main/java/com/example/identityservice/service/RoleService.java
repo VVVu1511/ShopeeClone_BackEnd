@@ -9,9 +9,11 @@ import com.example.identityservice.dto.request.RoleRequest;
 import com.example.identityservice.dto.response.RoleResponse;
 import com.example.identityservice.entity.Permission;
 import com.example.identityservice.entity.Role;
+import com.example.identityservice.entity.RolePermission;
 import com.example.identityservice.mapper.PermissionMapper;
 import com.example.identityservice.mapper.RoleMapper;
 import com.example.identityservice.repository.PermissionRepository;
+import com.example.identityservice.repository.RolePermissionRepository;
 import com.example.identityservice.repository.RoleRepository;
 
 import lombok.AccessLevel;
@@ -26,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RoleService {
 	RoleRepository roleRepository;
 	PermissionRepository permissionRepository;
+	RolePermissionRepository rolePermissionRepository;
 	RoleMapper roleMapper;
 	
 	public RoleResponse create(RoleRequest request) {
@@ -34,7 +37,16 @@ public class RoleService {
 		//find by permission name
 		List<Permission> permissions = permissionRepository.findAllByNameIn(request.getPermissions());
 	
-		role = roleRepository.save(role);
+		final Role save_role = roleRepository.save(role);
+
+		List<RolePermission> rpl = permissions.stream()
+			.map(p -> RolePermission.builder()
+				.role(save_role)
+				.permission(p)
+				.build())
+			.toList();
+
+		rolePermissionRepository.saveAll(rpl);
 		
 		return roleMapper.toRoleResponse(role);
 	}

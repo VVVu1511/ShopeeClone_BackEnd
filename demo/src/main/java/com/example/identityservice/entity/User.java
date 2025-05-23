@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.example.identityservice.validator.DobConstraints;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -41,6 +42,8 @@ public class User {
 	
 	String firstName;
 	String lastName;
+	
+	@DobConstraints
 	LocalDate dob;
 	
 	@Size(min = 8, max = 12)

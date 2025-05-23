@@ -17,8 +17,6 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = { DobValidator.class})
 public @interface DobConstraints {
 	String message() default "Invalid date of birth";
-
-	int min();
 	
 	Class<?>[] groups() default { };
 

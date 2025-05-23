@@ -22,7 +22,9 @@ public enum ErrorCode {
 	NOT_ENOUGH_QUANTITY(1010,"The stock quantity is not enough", HttpStatus.BAD_REQUEST),
 	NOT_EXIST_CART(1011,"The cart doesn't exist", HttpStatus.BAD_REQUEST),
 	NOT_EXIST_CATEGORY(1012,"The category doesn't exist", HttpStatus.BAD_REQUEST),
-	NOT_EXIST(1013,"Not exist", HttpStatus.BAD_REQUEST)
+	NOT_EXIST(1013,"Not exist", HttpStatus.BAD_REQUEST),
+	EMAIL_EXIST(1014,"Email already exists", HttpStatus.BAD_REQUEST),
+	PHONE_NUMBER_EXIST(1015,"Phone number already exists", HttpStatus.BAD_REQUEST),
 	;
 
 	

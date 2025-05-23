@@ -1,10 +1,12 @@
 package com.example.identityservice.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,6 +25,7 @@ import com.example.identityservice.dto.response.BuyingProductResponse;
 import com.example.identityservice.dto.response.GettingProductResponse;
 import com.example.identityservice.dto.response.UserResponse;
 import com.example.identityservice.entity.User;
+import com.example.identityservice.enums.RoleDefined;
 import com.example.identityservice.entity.Cart;
 import com.example.identityservice.entity.CartItem;
 import com.example.identityservice.entity.CartItemId;
@@ -63,22 +66,28 @@ public class UserService {
 	CartMapper cartMapper;
 
 	public User createUser(UserCreationRequest request) {
-		log.info("Service: Create User");
-		
 		if(userRepository.existsByUsername(request.getUsername())) {
 			throw new AppException(ErrorCode.USER_EXIST);
 		}
+
+		if(userRepository.existsByEmail(request.getEmail())){
+			throw new AppException(ErrorCode.EMAIL_EXIST);
+		}
 		
+		if(userRepository.existsByPhone(request.getPhone())){
+			throw new AppException(ErrorCode.PHONE_NUMBER_EXIST);
+		}
+
 		User user = userMapper.toUser(request);
+		user.setCreatedAt(LocalDateTime.now());
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		
-		HashSet<String> roles = new HashSet<>();
-//		roles.add(Role.USER.name());
-		
-		
-//		user.setRoles(roles);
-		
-		return user;
+		List<String> roles = new ArrayList<>();
+		roles.add("USER");
+
+		user.setRoles(new HashSet<>(roleRepository.findAllByNameIn(roles)));
+
+		return userRepository.save(user);
 	}
 	
 	public User updateUser(Long userId,UserUpdateRequest request) {
