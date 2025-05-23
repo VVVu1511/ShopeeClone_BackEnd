@@ -39,7 +39,6 @@ public class Permission {
 
 	String description;
 
-
 	@OneToMany(mappedBy = "permission",cascade = CascadeType.ALL)
 	@JsonIgnore
 	Set<RolePermission> rolePermissions;

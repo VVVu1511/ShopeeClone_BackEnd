@@ -1,5 +1,6 @@
 package com.example.identityservice.controller;
 
+
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.identityservice.dto.request.PermissionRequest;
+import com.example.identityservice.dto.request.UpdatePermissionRequest;
 import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.PermissionResponse;
+import com.example.identityservice.entity.Permission;
 import com.example.identityservice.service.PermissionService;
 
 import lombok.AccessLevel;
@@ -20,6 +23,8 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -33,7 +38,7 @@ public class PermissionController {
 	
 	//tạo 1 permission mới
 	@PostMapping
-	ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest request){
+	public ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest request){
 		return ApiResponse.<PermissionResponse>builder()
 				.result(permissionService.create(request))
 				.build();
@@ -41,7 +46,7 @@ public class PermissionController {
 	
 	//lấy tất cả permissions
 	@GetMapping
-	ApiResponse<List<PermissionResponse>> getAll(){
+	public ApiResponse<List<PermissionResponse>> getAll(){
 		return ApiResponse.<List<PermissionResponse>>builder()
 				.result(permissionService.getAll())
 				.build();
@@ -49,9 +54,18 @@ public class PermissionController {
 	
 	//xóa 1 permission
 	@DeleteMapping("/{permissionId}")
-	ApiResponse<Void> delete(@PathVariable Long permissionId){
+	public ApiResponse<Void> delete(@PathVariable Long permissionId){
 		permissionService.delete(permissionId);
 		return ApiResponse.<Void>builder().build();
 	}
 	
+	//cập nhật 1 permission
+	@PutMapping
+	public ApiResponse<Permission> updatePermission(@RequestBody UpdatePermissionRequest request) {
+		
+		return ApiResponse.<Permission>builder()
+			.result(permissionService.updatePermission(request))
+			.build();
+	}
+
 }

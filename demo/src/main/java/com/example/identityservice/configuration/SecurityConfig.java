@@ -29,7 +29,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
     
- 
 	private final String[] PUBLIC_ENDPOINT = {"/users",
 			"/auth/token",
 			"/auth/introspect",
@@ -43,21 +42,21 @@ public class SecurityConfig {
 	
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-    	httpSecurity.authorizeHttpRequests(request -> 
+		httpSecurity.authorizeHttpRequests(request -> 
 					request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
 					.anyRequest().authenticated())
-    	;
-    	
-    	httpSecurity.oauth2ResourceServer(oauth2 -> 
-    		oauth2.jwt(JwtConfigurer -> 
-    				JwtConfigurer.decoder(customJwtDecoder)
-    				.jwtAuthenticationConverter(jwtAuthenticationConverter()))
-    				.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-    	);
-    	
-    	httpSecurity.csrf(AbstractHttpConfigurer::disable);
-    	
-    	return httpSecurity.build();
+		;
+
+		httpSecurity.oauth2ResourceServer(oauth2 -> 
+			oauth2.jwt(JwtConfigurer -> 
+				JwtConfigurer.decoder(customJwtDecoder)
+				.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+				.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+		);
+
+		httpSecurity.csrf(AbstractHttpConfigurer::disable);
+
+		return httpSecurity.build();
     }
 	
 	@Bean

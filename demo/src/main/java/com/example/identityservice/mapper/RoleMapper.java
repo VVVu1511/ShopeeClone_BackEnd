@@ -6,6 +6,7 @@ import org.mapstruct.MappingTarget;
 
 import com.example.identityservice.dto.request.PermissionRequest;
 import com.example.identityservice.dto.request.RoleRequest;
+import com.example.identityservice.dto.request.UpdateRoleRequest;
 import com.example.identityservice.dto.request.UserCreationRequest;
 import com.example.identityservice.dto.request.UserUpdateRequest;
 import com.example.identityservice.dto.response.PermissionResponse;
@@ -23,4 +24,8 @@ public interface RoleMapper {
 	Role toRole(RoleRequest request);
 	
 	RoleResponse toRoleResponse(Role role);
+
+	Role toRole(UpdateRoleRequest request);
+	
+	void updateRole(@MappingTarget Role role, UpdateRoleRequest request);
 }

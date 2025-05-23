@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.identityservice.dto.request.PermissionRequest;
+import com.example.identityservice.dto.request.UpdatePermissionRequest;
 import com.example.identityservice.dto.response.PermissionResponse;
 import com.example.identityservice.entity.Permission;
 import com.example.identityservice.exception.AppException;
@@ -47,5 +48,13 @@ public class PermissionService {
 	
 	public void delete(Long permissionId) {
 		permissionRepository.deleteById(permissionId);
+	}
+
+	public Permission updatePermission(UpdatePermissionRequest request){
+		Permission permission = permissionRepository.findById(request.getPermissionId()).orElseThrow(() -> new AppException(ErrorCode.PERMISSION_NOT_EXIST));
+
+		permissionMapper.updatePermission(permission, request);
+
+		return permissionRepository.save(permission);
 	}
 }

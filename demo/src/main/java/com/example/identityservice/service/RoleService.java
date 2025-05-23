@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.identityservice.dto.request.GetPermissionsByRoleRequest;
 import com.example.identityservice.dto.request.RoleRequest;
+import com.example.identityservice.dto.request.UpdateRoleRequest;
 import com.example.identityservice.dto.response.RoleResponse;
 import com.example.identityservice.entity.Permission;
 import com.example.identityservice.entity.Role;
 import com.example.identityservice.entity.RolePermission;
 import com.example.identityservice.entity.RolePermissionId;
+import com.example.identityservice.exception.AppException;
+import com.example.identityservice.exception.ErrorCode;
 import com.example.identityservice.mapper.PermissionMapper;
 import com.example.identityservice.mapper.RoleMapper;
 import com.example.identityservice.repository.PermissionRepository;
@@ -62,5 +66,26 @@ public class RoleService {
 	
 	public void delete(Long roleId) {
 		roleRepository.deleteById(roleId);
+	}
+
+	public Role updateRole(UpdateRoleRequest request){
+		if(!roleRepository.existsById(request.getRoleId())){
+			throw new AppException(ErrorCode.ROLE_NOT_EXIST);
+		}
+
+		Role role = roleMapper.toRole(request);
+
+		roleMapper.updateRole(role, request);
+
+		return roleRepository.save(role);
+	}
+
+	public List<Permission> getPermissionsByRole(GetPermissionsByRoleRequest request){
+		Role role = roleRepository.findById(request.getRoleId()).orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXIST));
+
+		return rolePermissionRepository.findAllByRole(role)
+			.stream()
+			.map(RolePermission::getPermission)
+			.toList();
 	}
 }
