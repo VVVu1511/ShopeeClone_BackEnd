@@ -2,6 +2,8 @@ package com.example.identityservice.entity;
 
 import org.hibernate.mapping.Join;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -31,10 +33,12 @@ public class RolePermission {
     @ManyToOne
     @MapsId("roleId")
     @JoinColumn(name="role_id")
+    @JsonIgnore
     Role role;
 
     @ManyToOne
     @MapsId("permissionId")
     @JoinColumn(name="permission_id")
+    @JsonIgnore
     Permission permission;
 }

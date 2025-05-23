@@ -37,12 +37,7 @@ public class Permission {
 
 	String description;
 
-	@ManyToMany
-	// @JoinTable(
-	// 	name = "role_permission",
-	// 	joinColumns = @JoinColumn(name = "permission_id"),
-	// 	inverseJoinColumns = @JoinColumn(name = "role_id")
-	// )
 	@JsonIgnore
+	@ManyToMany
 	Set<Role> roles = new HashSet<>();
 }
