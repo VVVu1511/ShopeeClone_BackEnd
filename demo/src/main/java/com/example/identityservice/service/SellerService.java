@@ -39,8 +39,9 @@ import lombok.extern.slf4j.Slf4j;
 public class SellerService {
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
-    ProductMapper productMapper;
     SellerRepository sellerRepository;
+    
+    ProductMapper productMapper;
     SellerMapper sellerMapper;
 
     //dang ban san pham
@@ -113,13 +114,15 @@ public class SellerService {
         return sellerRepository.findAll();
     }
 
+    //xoa 1 seller
     public void deleteSeller(Long sellerId){
-        boolean done = true;
-        
         try{
+            Seller seller = sellerRepository.findById(sellerId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXIST));
+
             sellerRepository.deleteById(sellerId);
+            productRepository.deleteAllBySeller(seller);
         } catch(Exception e){
-            done = false;
+            throw new AppException(ErrorCode.USER_NOT_EXIST);
         }
     }
 }

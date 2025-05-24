@@ -56,11 +56,11 @@ public class User {
 	@JsonIgnore
     Set<Cart> carts = new HashSet<>();
 
-	@ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	@JsonIgnore
-	Set<Role> roles = new HashSet<>();
-
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
 	Set<Review> reviews = new HashSet<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
+	Set<RoleUser> roleUsers;
 }

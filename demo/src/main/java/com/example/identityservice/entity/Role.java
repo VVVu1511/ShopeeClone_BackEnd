@@ -42,14 +42,10 @@ public class Role {
 	String description;
 
 	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+	@JsonIgnore
 	Set<RolePermission> rolePermissions;
 	
-	@ManyToMany
-	@JoinTable(
-		name = "role_user",
-		joinColumns = @JoinColumn(name = "role_id"),
-		inverseJoinColumns = @JoinColumn(name = "user_id")
-	)
+	@OneToMany(mappedBy = "role",cascade = CascadeType.ALL)
 	@JsonIgnore
-	Set<User> users = new HashSet<>();
+	Set<RoleUser> roleUsers;
 }

@@ -32,6 +32,8 @@ import com.example.identityservice.entity.CartItemId;
 import com.example.identityservice.entity.Product;
 import com.example.identityservice.entity.Review;
 import com.example.identityservice.entity.Role;
+import com.example.identityservice.entity.RoleUser;
+import com.example.identityservice.entity.RoleUserId;
 import com.example.identityservice.exception.AppException;
 import com.example.identityservice.exception.ErrorCode;
 import com.example.identityservice.mapper.CartMapper;
@@ -42,6 +44,7 @@ import com.example.identityservice.repository.CartRepository;
 import com.example.identityservice.repository.ProductRepository;
 import com.example.identityservice.repository.ReviewRepository;
 import com.example.identityservice.repository.RoleRepository;
+import com.example.identityservice.repository.RoleUserRepository;
 import com.example.identityservice.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -59,12 +62,28 @@ public class UserService {
 	CartRepository cartRepository;
 	ProductRepository productRepository;
 	ReviewRepository reviewRepository;
+	RoleUserRepository roleUserRepository;
 	
 	UserMapper userMapper;
 	PasswordEncoder passwordEncoder;
 	ProductMapper productMapper;
 	CartMapper cartMapper;
 
+	public void addRolesForUser(List<String> roles_string, User user){
+		List<Role> roles = roleRepository.findAllByNameIn(roles_string);
+
+		roleUserRepository.saveAll(
+			roles.stream().map(
+			role -> RoleUser.builder()
+				.role(role)
+				.user(user)
+				.id(RoleUserId.builder()
+					.role(role.getRoleId())
+					.user(user.getId())
+					.build())
+				.build()
+		).toList());
+	}
 
 	public User createUser(UserCreationRequest request) {		
 		if(userRepository.existsByUsername(request.getUsername())) {
@@ -85,8 +104,7 @@ public class UserService {
 		
 		List<String> roles = new ArrayList<>();
 		roles.add("USER");
-
-		user.setRoles(new HashSet<>(roleRepository.findAllByNameIn(roles)));
+		addRolesForUser(roles, user);
 
 		return userRepository.save(user);
 	}
@@ -100,8 +118,7 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		
 		//find roles by name
-		List<Role> roles = roleRepository.findAllByNameIn(request.getRoles());
-		user.setRoles(new HashSet<>(roles));
+		addRolesForUser(request.getRoles(), user);
 		
 		return user;
 	}
@@ -118,18 +135,21 @@ public class UserService {
 	}
 	
 	public void deleteUser(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXIST));
+
 		userRepository.deleteById(userId);
+		roleUserRepository.deleteByUserId(userId);
+		cartRepository.deleteByUser(user);
+		reviewRepository.deleteByUser(user);
 	}
 	
 	// @PreAuthorize("hasRole('ADMIN')")
 	public List<User> getUsers(){
-		log.info("In method get Users");
 		return userRepository.findAll();
 	}
 	
 	// @PostAuthorize("returnObject.username == authentication.name")	
 	public User getUser(Long userId) {
-		log.info("In method get user by Id");
 		return userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found!"));
 	}

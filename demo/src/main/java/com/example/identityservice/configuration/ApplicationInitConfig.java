@@ -48,7 +48,7 @@ public class ApplicationInitConfig {
 				User user = User.builder()
 						.username("admin")
 						.password(passwordEncoder.encode("admin"))
-						.roles(new HashSet<>(roleRepository.findAllByNameIn(roles)))
+						// .roles(new HashSet<>(roleRepository.findAllByNameIn(roles)))
 						.build();
 
 				userRepository.save(user);

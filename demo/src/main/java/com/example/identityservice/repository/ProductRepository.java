@@ -11,6 +11,8 @@ import com.example.identityservice.entity.Seller;;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findAllBySeller(Seller seller);
+
+    void deleteAllBySeller(Seller seller);
 }
 
 //correctness -> readability -> optimization
