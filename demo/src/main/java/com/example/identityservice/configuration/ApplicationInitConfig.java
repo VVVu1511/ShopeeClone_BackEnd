@@ -13,8 +13,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.identityservice.entity.Role;
+import com.example.identityservice.entity.RoleUser;
+import com.example.identityservice.entity.RoleUserId;
 import com.example.identityservice.entity.User;
 import com.example.identityservice.repository.RoleRepository;
+import com.example.identityservice.repository.RoleUserRepository;
 // import com.example.identityservice.enums.Role;
 import com.example.identityservice.repository.UserRepository;
 
@@ -32,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ApplicationInitConfig {
 	PasswordEncoder passwordEncoder;
 	RoleRepository roleRepository;
+	RoleUserRepository roleUserRepository;
 
 	@Bean
 	@ConditionalOnProperty(prefix = "spring", 
@@ -42,15 +46,23 @@ public class ApplicationInitConfig {
 		log.info("Init application......");
 		return args -> {
 			if (userRepository.findByUsername("admin").isEmpty()) {
-				List<String> roles = new ArrayList<>();
-				roles.add("ADMIN");
-
 				User user = User.builder()
 						.username("admin")
 						.password(passwordEncoder.encode("admin"))
-						// .roles(new HashSet<>(roleRepository.findAllByNameIn(roles)))
 						.build();
+				
+				Role role = roleRepository.findByName("ADMIN");
 
+				roleUserRepository.save(RoleUser.builder()
+					.id(RoleUserId.builder()
+						.userId(user.getId())
+						.roleId(role.getRoleId())
+						.build())
+					.role(role)
+					.user(user)
+					.build()
+				);
+				
 				userRepository.save(user);
 				log.warn("admin user has been created with default password: admin, please change it");
 			}

@@ -11,7 +11,8 @@ import com.example.identityservice.entity.RoleUserId;
 
 @Repository
 public interface RoleUserRepository extends JpaRepository<RoleUser, RoleUserId>{
+    
     @Modifying
-    @Query("DELETE from RoleUser ru where ru.id.user = :userId")
+    @Query("DELETE from RoleUser ru where ru.id.userId = :userId")
     void deleteByUserId(@Param("userId") Long userId);
 }

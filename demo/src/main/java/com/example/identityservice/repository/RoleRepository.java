@@ -11,4 +11,5 @@ import com.example.identityservice.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     List<Role> findAllByNameIn(List<String> roles);
+    Role findByName(String name);
 }

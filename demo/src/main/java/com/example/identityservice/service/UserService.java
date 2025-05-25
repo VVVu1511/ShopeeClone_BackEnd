@@ -69,6 +69,7 @@ public class UserService {
 	ProductMapper productMapper;
 	CartMapper cartMapper;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	public void addRolesForUser(List<String> roles_string, User user){
 		List<Role> roles = roleRepository.findAllByNameIn(roles_string);
 
@@ -78,13 +79,14 @@ public class UserService {
 				.role(role)
 				.user(user)
 				.id(RoleUserId.builder()
-					.role(role.getRoleId())
-					.user(user.getId())
+					.roleId(role.getRoleId())
+					.userId(user.getId())
 					.build())
 				.build()
 		).toList());
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	public User createUser(UserCreationRequest request) {		
 		if(userRepository.existsByUsername(request.getUsername())) {
 			throw new AppException(ErrorCode.USER_EXIST);
@@ -109,6 +111,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	public User updateUser(Long userId,UserUpdateRequest request) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("User not found!"));
@@ -134,6 +137,7 @@ public class UserService {
 		return user;
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteUser(Long userId) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXIST));
 
@@ -143,7 +147,7 @@ public class UserService {
 		reviewRepository.deleteByUser(user);
 	}
 	
-	// @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public List<User> getUsers(){
 		return userRepository.findAll();
 	}
