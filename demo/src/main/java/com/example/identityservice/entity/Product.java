@@ -18,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
@@ -65,6 +66,10 @@ public class Product {
     @JsonIgnore
     Set<Review> reviews = new HashSet<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
+	Image image;
+    
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    Set<ProductImage> images = new HashSet<>();
 //
