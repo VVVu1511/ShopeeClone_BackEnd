@@ -66,7 +66,7 @@ public class Product {
     @JsonIgnore
     Set<Review> reviews = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
 	@JsonIgnore
 	Image image;
     
