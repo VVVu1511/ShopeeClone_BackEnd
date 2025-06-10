@@ -64,8 +64,7 @@ public class ProductController {
     
     @PostMapping
     public ApiResponse<List<Product>> getProductsByName(@RequestBody FilterProductRequest request){
-        
-        
+
         return ApiResponse.<List<Product>>builder()
             .result(productService.getAllProductsByName(request.getProductType()))
             .build();   

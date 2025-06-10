@@ -33,6 +33,6 @@ public class ProductService {
     }
 
     public List<Product> getAllProductsByName(String name){
-        return productRepository.findAll().stream().filter(e -> e.getName() == name).toList();
+        return productRepository.findAll().stream().filter(e -> e.getName().equals(name)).toList();
     }
 }
