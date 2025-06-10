@@ -3,6 +3,7 @@ package com.example.identityservice.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.identityservice.dto.request.FilterProductRequest;
 import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.GettingAllProductResponse;
 import com.example.identityservice.entity.Product;
@@ -20,6 +21,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -57,4 +61,14 @@ public class ProductController {
             .build();
     }
     
+    
+    @PostMapping
+    public ApiResponse<List<Product>> getProductsByName(@RequestBody FilterProductRequest request){
+        
+        
+        return ApiResponse.<List<Product>>builder()
+            .result(productService.getAllProductsByName(request.getProductType()))
+            .build();   
+    }
 }
+

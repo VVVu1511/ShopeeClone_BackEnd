@@ -31,4 +31,8 @@ public class ProductService {
     public List<Product> getAllProductsByCategory(Long categoryId){
         return productRepository.findAll().stream().filter(e -> e.getCategory().getCategoryId() == categoryId).toList();
     }
+
+    public List<Product> getAllProductsByName(String name){
+        return productRepository.findAll().stream().filter(e -> e.getName() == name).toList();
+    }
 }
