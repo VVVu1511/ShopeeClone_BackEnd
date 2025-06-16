@@ -70,7 +70,7 @@ public class UserController {
 	}
 
 	//mua sản phẩm
-	@GetMapping("/buy/product")
+	@PostMapping("/buy/product")
 	ApiResponse<BuyingProductResponse> buyProduct(@RequestBody BuyingProductRequest request){
 		
 		return ApiResponse.<BuyingProductResponse>builder()

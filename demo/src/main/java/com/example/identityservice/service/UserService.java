@@ -46,6 +46,8 @@ import com.example.identityservice.repository.ReviewRepository;
 import com.example.identityservice.repository.RoleRepository;
 import com.example.identityservice.repository.RoleUserRepository;
 import com.example.identityservice.repository.UserRepository;
+
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -86,7 +88,7 @@ public class UserService {
 		).toList());
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	// @PreAuthorize("hasRole('ADMIN')")
 	public User createUser(UserCreationRequest request) {		
 		if(userRepository.existsByUsername(request.getUsername())) {
 			throw new AppException(ErrorCode.USER_EXIST);
@@ -160,47 +162,42 @@ public class UserService {
 	
 	//mua san pham
 	public BuyingProductResponse buyProduct(BuyingProductRequest request){
-		try{
 		
-			Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
-			
-			Cart cart = cartRepository.findById(request.getCartId()).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST_CART));
-			
-			cart.setUpdatedAt(LocalDateTime.now());
-
-			if(product.getStockQty() < request.getQuantity()){
-				throw new AppException(ErrorCode.NOT_ENOUGH_QUANTITY);
-			}
-
-			cartItemRepository.save(CartItem.builder()
-								.id(CartItemId.builder()
-									.cartId(request.getCartId())
-									.productId(product.getProductId())
-									.build())
-								.product(product)
-								.cart(cart)
-								.quantity(request.getQuantity())
-								.addedAt(LocalDateTime.now())
-								.build()
-						);
-
-			product.setStockQty(product.getStockQty() - request.getQuantity());
-
-			productMapper.updateProduct2(product, UpdatingProductRequest.builder()
-				.stockQty(product.getStockQty() - request.getQuantity())
-				.build()
-			);
-
-			productRepository.save(product);
-
-			cartMapper.updateCart(cart, CartUpdateRequest.builder()
-				.updatedAt(LocalDateTime.now()).build());
-
-			cartRepository.save(cart);
+		Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
 		
-		} catch(Exception e){
-			throw new AppException(ErrorCode.PRODUCT_NOT_EXIST);
+		Cart cart = cartRepository.findById(request.getCartId()).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST_CART));
+		
+		cart.setUpdatedAt(LocalDateTime.now());
+
+		if(product.getStockQty() < request.getQuantity()){
+			throw new AppException(ErrorCode.NOT_ENOUGH_QUANTITY);
 		}
+
+		cartItemRepository.save(CartItem.builder()
+							.id(CartItemId.builder()
+								.cartId(request.getCartId())
+								.productId(product.getProductId())
+								.build())
+							.product(product)
+							.cart(cart)
+							.quantity(request.getQuantity())
+							.addedAt(LocalDateTime.now())
+							.build()
+					);
+
+		product.setStockQty(product.getStockQty() - request.getQuantity());
+
+		productMapper.updateProduct2(product, UpdatingProductRequest.builder()
+			.stockQty(product.getStockQty() - request.getQuantity())
+			.build()
+		);
+
+		productRepository.save(product);
+
+		cartMapper.updateCart(cart, CartUpdateRequest.builder()
+			.updatedAt(LocalDateTime.now()).build());
+
+		cartRepository.save(cart);
 
 		return BuyingProductResponse.builder()
 			.success(true)

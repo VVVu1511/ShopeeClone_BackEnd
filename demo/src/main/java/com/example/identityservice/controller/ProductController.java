@@ -7,6 +7,9 @@ import com.example.identityservice.dto.request.FilterProductRequest;
 import com.example.identityservice.dto.response.ApiResponse;
 import com.example.identityservice.dto.response.GettingAllProductResponse;
 import com.example.identityservice.entity.Product;
+import com.example.identityservice.exception.AppException;
+import com.example.identityservice.exception.ErrorCode;
+import com.example.identityservice.repository.ProductRepository;
 import com.example.identityservice.service.ProductService;
 
 import lombok.AccessLevel;
@@ -34,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public class ProductController {
     ProductService productService;
+    ProductRepository productRepository;
 
     //lấy tất cả sản phẩm
     @GetMapping
@@ -69,5 +73,11 @@ public class ProductController {
             .result(productService.getAllProductsByName(request.getProductType()))
             .build();   
     }
+
+    @GetMapping("/test/{productId}")
+    public Product getMethodName(@PathVariable Long productId) {
+        return productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
+    }
+    
 }
 

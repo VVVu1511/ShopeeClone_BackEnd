@@ -42,10 +42,12 @@ public class SecurityConfig {
 	
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+		// httpSecurity.authorizeHttpRequests(request -> 
+		// 			request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
+		// 			.anyRequest().authenticated())
 		httpSecurity.authorizeHttpRequests(request -> 
 					request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
-					.anyRequest().authenticated())
-		;
+					.anyRequest().anonymous());
 
 		httpSecurity.oauth2ResourceServer(oauth2 -> 
 			oauth2.jwt(JwtConfigurer -> 
